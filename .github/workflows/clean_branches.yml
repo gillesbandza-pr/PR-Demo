@@ -26,8 +26,6 @@ jobs:
           #MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}")
           MERGED_BRANCHES=$(git branch --merged main | grep -v "^\* main" | xargs -n 1 -r git branch -d)
           
-          echo "branches=''"
-
           # remove excluded branches
           #for branch in $(echo $EXCLUDE_BRANCHES | sed "s/,/ /g"); do
           #    MERGED_BRANCHES=$(echo $MERGED_BRANCHES | sed "s/$branch//g")
