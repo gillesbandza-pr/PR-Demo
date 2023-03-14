@@ -20,7 +20,6 @@ jobs:
 
       - name: CLI
         run: |
-          git checkout HEAD^
           git fetch
           git branch
           git branch --merged main | grep -v "^\* main" | xargs -n 1 -r git branch -d
