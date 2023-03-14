@@ -7,20 +7,28 @@ jobs:
   delete-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: delete branch
-        uses: SvanBoxel/delete-merged-branch@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete Manually
+        run: |
+          git fetch
+          git branch
+          git branch --merged main | grep -v "^\* main" | xargs -n 1 -r git branch -d
+          git branch
+
+      #- name: delete branch
+      #  uses: SvanBoxel/delete-merged-branch@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #- name: Delete branches again
       #  uses: zjutszl/delete-merged-branch-asdf@master
 
-      - name: Delete merged branch
-        uses: koj-co/delete-merged-action@master
-        with:
-          branches: "!master, !production, !main, *"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      #- name: Delete merged branch
+      #  uses: koj-co/delete-merged-action@master
+      #  with:
+      #    branches: "!master, !production, !main, *"
+      #  env:
+      #    GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       #- name: Checkout repository
       #  uses: actions/checkout@v2
