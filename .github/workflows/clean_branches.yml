@@ -26,9 +26,9 @@ jobs:
           MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}")
 
           # remove excluded branches
-          for branch in $(echo $EXCLUDE_BRANCHES | sed "s/,/ /g"); do
-              MERGED_BRANCHES=$(echo $MERGED_BRANCHES | sed "s/$branch//g")
-          done
+          #for branch in $(echo $EXCLUDE_BRANCHES | sed "s/,/ /g"); do
+          #    MERGED_BRANCHES=$(echo $MERGED_BRANCHES | sed "s/$branch//g")
+          #done
 
           # remove newlines
           BRANCHES_FOR_DEL=$(echo ${MERGED_BRANCHES//$'\n'/})
