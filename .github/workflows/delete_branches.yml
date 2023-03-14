@@ -10,7 +10,7 @@ jobs:
       - name: delete branch
         uses: SvanBoxel/delete-merged-branch@main
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #- name: Delete branches again
       #  uses: zjutszl/delete-merged-branch-asdf@master
@@ -20,7 +20,7 @@ jobs:
         with:
           branches: "!master, !production, !main, *"
         env:
-          GITHUB_TOKEN: "${{ secrets.GIT_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       #- name: Checkout repository
       #  uses: actions/checkout@v2
