@@ -8,11 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        #with:
-        #  fetch-depth: 2
-        run: git checkout HEAD^
+      - name: CLI
+        run: |
+          git fetch
+          git branch
+          git branch --merged main | grep -v "^\* main" | xargs -n 1 -r git branch -d
+          git branch
+          git add .
 
       - name: Commit & Push changes
         uses: actions-js/push@master
