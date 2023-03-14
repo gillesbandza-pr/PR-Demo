@@ -31,10 +31,10 @@ jobs:
           #done
 
           # remove newlines
-          BRANCHES_FOR_DEL=$(echo ${MERGED_BRANCHES//$'\n'/})
+          #BRANCHES_FOR_DEL=$(echo ${MERGED_BRANCHES//$'\n'/})
 
-          echo "::notice::Branches to delete: $BRANCHES_FOR_DEL"
-          echo "branches=${BRANCHES_FOR_DEL}" >> $GITHUB_ENV
+          #echo "::notice::Branches to delete: $BRANCHES_FOR_DEL"
+          #echo "branches=${BRANCHES_FOR_DEL}" >> $GITHUB_ENV
 
           #for branch in $BRANCHES_FOR_DEL; do
           #    echo "::warning::Branch $branch was at $(git rev-parse $branch)"
