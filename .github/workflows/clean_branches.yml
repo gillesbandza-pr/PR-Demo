@@ -6,7 +6,7 @@ on:
 
 env:
   RELEASE_BRANCH: main
-  EXCLUDE_BRANCHES: '' # comma separated list of branches to exclude; e.g. 'main,develop'
+  EXCLUDE_BRANCHES: 'main' # comma separated list of branches to exclude; e.g. 'main,develop'
 
 jobs:
   delete-merged-branches:
