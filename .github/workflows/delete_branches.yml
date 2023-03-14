@@ -15,6 +15,13 @@ jobs:
       - name: Delete branches again
         uses: zjutszl/delete-merged-branch-asdf@master
 
+      - name: Delete merged branch
+        uses: koj-co/delete-merged-action@master
+        with:
+          branches: "!master, !production, *"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
       #- name: Checkout repository
       #  uses: actions/checkout@v2
       
