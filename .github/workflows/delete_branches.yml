@@ -12,8 +12,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
-      - name: Delete branches again
-        uses: zjutszl/delete-merged-branch-asdf@master
+      #- name: Delete branches again
+      #  uses: zjutszl/delete-merged-branch-asdf@master
 
       - name: Delete merged branch
         uses: koj-co/delete-merged-action@master
