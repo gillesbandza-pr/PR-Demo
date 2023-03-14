@@ -23,7 +23,10 @@ jobs:
         shell: bash
         run: |
           # all merged branches except current branch & release branch
-          MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}")
+          #MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}")
+          MERGED_BRANCHES=$(git branch --merged main | grep -v "^\* main" | xargs -n 1 -r git branch -d)
+          
+          echo "branches=''"
 
           # remove excluded branches
           #for branch in $(echo $EXCLUDE_BRANCHES | sed "s/,/ /g"); do
