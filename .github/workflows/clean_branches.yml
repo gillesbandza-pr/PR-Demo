@@ -19,26 +19,50 @@ jobs:
           ref: ${{ env.RELEASE_BRANCH }}
           fetch-depth: 0
 
+      - name: Create local branches
+        run: |
+          for branch in `git branch -r | grep -v "${RELEASE_BRANCH}"`; do
+            git branch --track ${branch#origin/} $branch
+          done
+
+      - name: List all branches
+        run: |
+          git branch -a
+
       - name: Get merged branches
         shell: bash
         run: |
           # all merged branches except current branch & release branch
-          MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}")
+          MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}" || :)
 
-          # remove excluded branches
-          for branch in $(echo $EXCLUDE_BRANCHES | sed "s/,/ /g"); do
+          echo "MERGED_BRANCHES=$MERGED_BRANCHES" >> $GITHUB_ENV
+
+      - name: Remove excluded branches
+        shell: bash
+        run: |
+          for branch in `echo $EXCLUDE_BRANCHES | sed "s/,/ /g"`; do
               MERGED_BRANCHES=$(echo $MERGED_BRANCHES | sed "s/$branch//g")
           done
 
+          echo "BRANCHES_FOR_DEL=$MERGED_BRANCHES" >> $GITHUB_ENV
+
+      - name: Prepare branches for deletion
+        shell: bash
+        run: |
           # remove newlines
-          BRANCHES_FOR_DEL=$(echo ${MERGED_BRANCHES//$'\n'/})
+          BRANCHES_FOR_DEL=$(echo ${BRANCHES_FOR_DEL//$'\n'/})
+
+          if [ -z "$BRANCHES_FOR_DEL" ]; then
+              echo "::notice::No branches to delete"
+              exit 0
+          fi
 
           echo "::notice::Branches to delete: $BRANCHES_FOR_DEL"
-          echo "branches=${BRANCHES_FOR_DEL}" >> $GITHUB_ENV
-
           for branch in $BRANCHES_FOR_DEL; do
               echo "::warning::Branch $branch was at $(git rev-parse $branch)"
           done
+
+          echo "branches=${BRANCHES_FOR_DEL}" >> $GITHUB_ENV
 
       - name: Delete merged branches
         if: env.branches != ''
