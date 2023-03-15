@@ -35,23 +35,21 @@ jobs:
           # all merged branches except current branch & release branch
           MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "${RELEASE_BRANCH}" || :)
 
-          echo "MERGED_BRANCHES=$MERGED_BRANCHES" >> $GITHUB_ENV
+          echo "MERGED_BRANCHES=${MERGED_BRANCHES//$'\n'/}" >> $GITHUB_ENV
 
       - name: Remove excluded branches
         shell: bash
         run: |
           for branch in `echo $EXCLUDE_BRANCHES | sed "s/,/ /g"`; do
-              MERGED_BRANCHES=$(echo $MERGED_BRANCHES | sed "s/$branch//g")
+              MERGED_BRANCHES=$(echo ${MERGED_BRANCHES// /$'\n'} | sed "s/$branch//g")
           done
 
-          echo "BRANCHES_FOR_DEL=$MERGED_BRANCHES" >> $GITHUB_ENV
+          # remove newlines
+          echo "BRANCHES_FOR_DEL=${MERGED_BRANCHES//$'\n'/}" >> $GITHUB_ENV
 
       - name: Prepare branches for deletion
         shell: bash
         run: |
-          # remove newlines
-          BRANCHES_FOR_DEL=$(echo ${BRANCHES_FOR_DEL//$'\n'/})
-
           if [ -z "$BRANCHES_FOR_DEL" ]; then
               echo "::notice::No branches to delete"
               exit 0
