@@ -17,4 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Command
-        run: git branch --merged | grep -v "(^\*|master|main|dev)" | xargs git branch -d
+        run:  |
+          # all merged branches except current branch & release branch
+          MERGED_BRANCHES=$(git branch --merged | grep -v "\*" | grep -v "main" || :)
+          echo "MERGED_BRANCHES=${MERGED_BRANCHES//$'\n'/}" >> $GITHUB_ENV
