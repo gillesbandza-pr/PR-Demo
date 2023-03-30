@@ -1,13 +1,17 @@
+name: FAIL
+on:
+  workflow_dispatch
+  
 jobs:
   FailJobIssueDemo:
     runs-on: ubuntu-latest
     steps:
       - name: Step is going to pass
         run: echo Passing step
-      
+
       - name: Step is going to fail
         run: exit 1
-         
+
       - name: Step To run on failure
         if: ${{ failure() }}
         run: |
