@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-	run: echo 'A review from octo-team was requested'
+        run: echo 'A review from octo-team was requested'
 	
-	- name: Step is going to fail
+      - name: Step is going to fail
         run: exit 1
 	
       - name: get the owner of the head repository
