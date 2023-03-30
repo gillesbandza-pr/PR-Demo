@@ -14,10 +14,10 @@ jobs:
 
       - name: Step is going to fail
         run: exit 1
-	
+
       - name: get the owner of the head repository
         run: echo "head owner = ${{ github.event.pull_request.head.repo.owner.login }}"
-	
+
       - name: Step To run on failure
         if: ${{ failure() }}
         run: |
