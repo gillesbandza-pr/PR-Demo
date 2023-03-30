@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout source
         run: echo 'A review from octo-team was requested'
-	
+
       - name: Step is going to fail
         run: exit 1
 	
@@ -28,6 +28,6 @@ jobs:
           --data '{
             "title": "Issue created due to workflow fialure: ${{ github.run_id }}",
             "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n due to failure in run: _${{ github.run_id }}_. ${{ github.event.pull_request.head.repo.owner.login }} ",
-		"assignees": ["jeelig"],
-		"labels":["bug"]
+            "assignees": ["jeelig"],
+            "labels":["bug"]
             }'
