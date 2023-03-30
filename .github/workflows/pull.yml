@@ -8,8 +8,7 @@ jobs:
   build:
     name: Merge
     runs-on: ubuntu-latest
-    
-	steps:
+    steps:
 	
       - name: Checkout source
         run: echo 'A review from octo-team was requested'
