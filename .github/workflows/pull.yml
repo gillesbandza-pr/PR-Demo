@@ -12,11 +12,11 @@ jobs:
       - name: Checkout source
         run: echo 'A review from octo-team was requested'
 
-      - name: Step is going to fail
-        run: exit 1
-
       - name: get the owner of the head repository
         run: echo "head owner = ${{ github.event.pull_request.head.repo.owner.login }}"
+
+      - name: Step is going to fail
+        run: exit 1
 
       - name: Step To run on failure
         if: ${{ failure() }}
