@@ -7,7 +7,6 @@ on: [pull_request]
 jobs:
   build:
     name: Merge
-	
     runs-on: ubuntu-latest
     
 	steps:
