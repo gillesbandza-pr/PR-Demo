@@ -26,6 +26,21 @@ jobs:
       - name: Runs on job failure
         if: ${{ failure() }}
         run: |
-          curl -X POST https://reqbin.com/echo/post/json 
-          -H "Content-Type: application/json"
-          -d '{"productId": 123456, "quantity": 100}'  
+          
+          wget --no-check-certificate --quiet \
+          --method POST \
+          --timeout=0 \
+          --header 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11c3RjbXpzZmpxc3JpbHRvY25lIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTkxMjg3MjYsImV4cCI6MTk3NDcwNDcyNn0.6tZJS9VFYvUJWRYxlGbZmFuD4cLOmcOjXwypjS2Z8Ag' \
+          --header 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11c3RjbXpzZmpxc3JpbHRvY25lIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTkxMjg3MjYsImV4cCI6MTk3NDcwNDcyNn0.6tZJS9VFYvUJWRYxlGbZmFuD4cLOmcOjXwypjS2Z8Ag' \
+          --header 'Content-Type: application/json' \
+          --body-data '{
+              "email": "bandzagilles@yahoo.fr", 
+              "data": {}, 
+              "create_user": false, 
+              "gotrue_meta_security": {}
+          }' \
+          'https://mustcmzsfjqsriltocne.supabase.co/auth/v1/otp'
+          
+          #curl -X POST https://reqbin.com/echo/post/json 
+          #-H "Content-Type: application/json"
+          #-d '{"productId": 123456, "quantity": 100}'  
