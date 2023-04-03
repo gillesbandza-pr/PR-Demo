@@ -27,7 +27,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           
-          Invoke-RestMethod -Method 'Post' -Uri https://api.github.com/repos/${{ github.repository }}/issues -Body $body -Headers @{
+          Invoke-RestMethod -Method 'Post' -Uri https://api.github.com/repos/${{ github.repository }}/issues -Headers @{
               'authorization' = 'Bearer ${{ secrets.GITHUB_TOKEN }}'
               'content-type' = 'application/json'
           } -Body @{
