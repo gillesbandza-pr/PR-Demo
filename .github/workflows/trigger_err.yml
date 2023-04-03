@@ -27,7 +27,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           
-          $Url = "https://api.github.com/repos/${{ github.repository }}/issues"
+          $url = "https://api.github.com/repos/${{ github.repository }}/issues"
           $headers = @{
             'authorization' = 'Bearer ${{ secrets.GITHUB_TOKEN }}'
             'content-type' = 'application/json'
