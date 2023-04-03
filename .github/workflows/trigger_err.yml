@@ -25,16 +25,12 @@ jobs:
         
       - name: Runs on job failure
         if: ${{ failure() }}
-        run: |
-          
-          $url = "https://api.github.com/repos/${{ github.repository }}/issues"
-          $headers = @{
-            'authorization' = 'Bearer ${{ secrets.GITHUB_TOKEN }}'
-            'content-type' = 'application/json'
-          }
-          $body = @{
-              title = "Issue created due to workflow failure: ${{ github.run_id }}"
-              body = "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n Step : **BUILD** \n\n due to failure in run: _${{ github.run_id }}_. ${{ github.event.pull_request.head.repo.owner.login }} "
-          }
-          Invoke-RestMethod -Uri $url -Method 'Post' -Headers $headers -Body $body
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          assignees: Jeelig
+          milestone: 1
+          update_existing: true
+          search_existing: all
 
