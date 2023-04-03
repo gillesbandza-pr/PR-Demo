@@ -32,7 +32,7 @@ jobs:
             'authorization' = 'Bearer ${{ secrets.GITHUB_TOKEN }}'
             'content-type' = 'application/json'
           }
-          $Body = @{
+          $body = @{
               title = "Issue created due to workflow failure: ${{ github.run_id }}"
               body = "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n Step : **BUILD** \n\n due to failure in run: _${{ github.run_id }}_. ${{ github.event.pull_request.head.repo.owner.login }} "
           }
