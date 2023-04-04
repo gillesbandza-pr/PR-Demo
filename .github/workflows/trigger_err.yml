@@ -1,11 +1,15 @@
-# This is a basic workflow to help you get started with Actions
 name: Trigger Error
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch: {}
 
 defaults:
   run:
     shell: powershell
+
+permissions:
+  contents: read
+  issues: write
 
 env:
   workflowDepth: 1
@@ -13,21 +17,25 @@ env:
 jobs:
   build:
     name: 🚀 Build App
-    runs-on: [ windows-latest ]
+    runs-on: windows-latest
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-        
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
       - name: Add Android platform
         run: cordova platform add android@11.0.0
-        
-      - name: Runs on job failure
-        if: ${{ failure() }}
-        uses: nashmaniac/create-issue-action@v1.1
-        with:
-          title: Build Failed
-          token: ${{secrets.GITHUB_TOKEN}}
-          assignees: ${{github.actor}}
-          labels: worflow-failed
-          body: Workflow failed for commit 
 
+      - name: Runs on job failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Build Failed",
+              body: "Build failed for commit: " + context.sha,
+              assignees: [ "${{ github.actor }}" ],
+              labels: [ "worflow-failed" ]
+            })
