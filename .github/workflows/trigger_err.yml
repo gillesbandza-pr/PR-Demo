@@ -23,11 +23,11 @@ jobs:
         
       - name: Runs on job failure
         if: ${{ failure() }}
-        uses: JasonEtco/create-an-issue@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: nashmaniac/create-issue-action@v1.1
         with:
-          title: Hello World
-          assignees: jeelig
-          labels: bug, enhancement
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: Workflow failed for commit ${{github.sha}}
 
