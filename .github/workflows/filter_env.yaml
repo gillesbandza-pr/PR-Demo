@@ -1,4 +1,4 @@
-name: Trigger Error
+name: Filter Env
 
 on:
   workflow_dispatch: {}
