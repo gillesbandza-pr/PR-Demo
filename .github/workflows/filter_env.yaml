@@ -21,5 +21,5 @@ jobs:
     steps:
       - name: 📥 declare
         run: |
-          $a = "Hello {"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}"
+          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}'
           Write-Host $a
