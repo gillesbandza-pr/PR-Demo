@@ -1,3 +1,5 @@
+name: release-solution-to-prod
+
 on: workflow_dispatch
 
 permissions:
