@@ -1,0 +1,25 @@
+name: Trigger Error
+
+on:
+  workflow_dispatch: {}
+
+defaults:
+  run:
+    shell: powershell
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  workflowDepth: 1
+
+jobs:
+  build:
+    name: 🚀 Build App
+    runs-on: windows-latest
+    steps:
+      - name: 📥 declare
+        run: |
+          $a = "Hello {"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}"
+          Write-Host $a
