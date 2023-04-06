@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   Matrix:
-    strategy: [{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]
+    strategy: {"matrix": [{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]}
     runs-on: ${{ fromJson(matrix.os) }}
     name: Deploy to ${{ matrix.environment }}
     steps:
