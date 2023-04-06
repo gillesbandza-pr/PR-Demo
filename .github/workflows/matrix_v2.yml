@@ -17,7 +17,7 @@ jobs:
           $ErrorActionPreference = "STOP"
           Set-StrictMode -version 2.0
           #$a = '${{ needs.Initialization.outputs.environments }}' | ConvertFrom-Json
-          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json -Depth 9
+          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json -Depth 2
           $b = $a.matrix.include.Where({$_.environment -eq "CORE_DEV (DEV)"})
           $a.matrix.include = $b
           $s = $a | ConvertTo-Json
