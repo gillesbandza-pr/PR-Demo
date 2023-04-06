@@ -1,0 +1,34 @@
+
+name: 'Matrix_v2'
+
+on: workflow_dispatch
+
+jobs:
+  
+  Prepare:
+    runs-on: [ windows-latest ]
+    name: Prepare Environment list
+    outputs:
+      output1: ${{ steps.step_prepare.outputs.PR_ENV }}
+    steps:
+      - id: step_prepare
+        name: Display list information
+        run: |
+          $ErrorActionPreference = "STOP"
+          Set-StrictMode -version 2.0
+          #$a = '${{ needs.Initialization.outputs.environments }}' | ConvertFrom-Json
+          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]},"fail-fast":false}' | ConvertFrom-Json
+          $b = $a.matrix.include.Where({$_.environment -eq "CORE_DEV (DEV)"})
+          $a.matrix.include = $b
+          $s = $a | ConvertTo-Json
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "PR_ENV=$s"
+  
+  Matrix:
+    needs: [Prepare]
+    #strategy: {"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]},"fail-fast":false}
+    strategy: ${{ needs.Prepare.outputs.output1 }}
+    runs-on: ${{matrix.os}}
+    name: Deploy to ${{ matrix.environment }}
+    steps:
+      - name: Checkout
+        run: echo "Hello world"
