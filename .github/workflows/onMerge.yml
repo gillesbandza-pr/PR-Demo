@@ -36,7 +36,9 @@ jobs:
     runs-on: [ windows-latest ]
     outputs:
       output1: ${{ steps.step_prepare.outputs.PR_ENV }}
+
     steps:
+
       - id: step_prepare
         name: Display list information
         run: |
@@ -44,7 +46,8 @@ jobs:
           Set-StrictMode -version 2.0
           $b = 'baba'
           echo "PR_ENV=$b" >> $env:GITHUB_OUTPUT
-      - name: Runs on job failure
+
+      - name: Create ticket
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
