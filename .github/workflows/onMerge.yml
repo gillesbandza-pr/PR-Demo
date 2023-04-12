@@ -64,6 +64,7 @@ jobs:
   Getter:
     needs: [ Initialization ]
     if: github.event.pull_request.merged == true
+    steps:
 
       - id: getter_1
         name: Get info
