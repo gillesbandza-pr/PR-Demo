@@ -35,14 +35,27 @@ jobs:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: [ windows-latest ]
     outputs:
-      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+      output1: ${{ steps.step_prepare.outputs.PR_ENV }}
     steps:
-      - name: Create CI/CD Workflow Check Run
-        id: init
-        if: github.event_name == 'workflow_run'
+      - id: step_prepare
+        name: Display list information
+        run: |
+          $ErrorActionPreference = "STOP"
+          Set-StrictMode -version 2.0
+          $b = 'baba'
+          echo "PR_ENV=$b" >> $env:GITHUB_OUTPUT
+      - name: Runs on job failure
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            var details_url = context.serverUrl.concat('/',context.repo.owner,'/',context.repo.repo,'/actions/runs/',context.runId)
-            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Issue created due to workflow failure: ${{ github.run_id }}",
+              body: "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n Step : **DELIVER** \n\n due to failure in run: _${{ github.run_id }}_. ${{ github.event.pull_request.head.repo.owner.login }}. context : " + context.sha,
+              assignees: [ "jeelig" ],
+              labels: [ "merge","deploy", "CICD" ]
+            })
+
+
