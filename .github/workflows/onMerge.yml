@@ -1,0 +1,48 @@
+name: 'onMerge'
+
+on: 
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Pull Request Handler"]
+    types:
+      - completed
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/*.yaml'
+      - '!.github/workflows/CICD.yaml'
+      - '!.github/workflows/CICD_v2.yaml'
+      - '!.github/workflows/CICD_QA.yaml'
+    branches: [ 'main', 'release/*', 'feature/*' ]
+
+run-name: ${{ fromJson(format('["","Check pull request from {1}/{2}{0} {3}"]',':',github.event.workflow_run.head_repository.owner.login,github.event.workflow_run.head_branch,github.event.workflow_run.display_title))[github.event_name == 'workflow_run'] }}
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+  checks: write
+
+defaults:
+  run:
+    shell: powershell
+
+env:
+  workflowDepth: 1
+
+jobs:
+  Initialization:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: [ windows-latest ]
+    outputs:
+      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+    steps:
+      - name: Create CI/CD Workflow Check Run
+        id: init
+        if: github.event_name == 'workflow_run'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var details_url = context.serverUrl.concat('/',context.repo.owner,'/',context.repo.repo,'/actions/runs/',context.runId)
+            
