@@ -61,5 +61,25 @@ jobs:
               assignees: [ "jeelig" ],
               labels: [ "merge","deploy", "CICD" ]
             })
+  Getter:
+    needs: [ Initialization ]
+    if: github.event.pull_request.merged == true
+
+      - id: getter_1
+        name: Get info
+        run: |
+          echo "Hello World !"
+          echo "Halla Warld !"
+
+  Matrix:
+    strategy: 
+      matrix:
+        include: [{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]
+    runs-on: ${{matrix.os}}
+    name: Deploy to ${{ matrix.environment }}
+    steps:
+      - name: Checkout
+        run: echo "Hello world"
+
 
 
