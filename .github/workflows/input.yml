@@ -9,11 +9,11 @@ on:
         options: 
         - No
         - Yes
+      environment:
+        type: environment
       all-environments:
         type: boolean
         description: Deploy both Dev & QAT
-      environment:
-        type: environment
 
 jobs:
   greet:
