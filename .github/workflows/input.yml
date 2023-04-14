@@ -3,14 +3,14 @@ name: Mixed inputs
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        type: environment
       name:
         type: choice
         description: Run tests
         options: 
         - No
         - Yes
-      environment:
-        type: environment
       all-environments:
         type: boolean
         description: Deploy both Dev & QAT
