@@ -5,15 +5,15 @@ on:
     inputs:
       environment:
         type: environment
+      all-environments:
+        type: boolean
+        description: Deploy both Dev & QAT
       name:
         type: choice
         description: Run tests
         options: 
         - No
         - Yes
-      all-environments:
-        type: boolean
-        description: Deploy both Dev & QAT
 
 jobs:
   greet:
