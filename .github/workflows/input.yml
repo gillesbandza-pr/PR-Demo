@@ -11,7 +11,7 @@ on:
         - Yes
       all-environments:
         type: boolean
-        description: Include  emojis
+        description: Deploy both Dev & QAT
       environment:
         type: environment
 
