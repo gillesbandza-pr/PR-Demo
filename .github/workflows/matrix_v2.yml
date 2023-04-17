@@ -1,6 +1,14 @@
 name: 'Matrix_v2'
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment
+        options: 
+        - CORE_DEV (DEV)
+        - CORE_DEV (QA)
 
 jobs:
   
