@@ -15,14 +15,12 @@ jobs:
         run: |
           $ErrorActionPreference = "STOP"
           Set-StrictMode -version 2.0
-		  $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json
+          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json
           $dev = $a.matrix.include.Where({$_.environment -eq "${{ github.event.inputs.name }}"})
           $dev = $dev | ConvertTo-Json -compress
           $dev = "[" + $dev + "]"
           $dev = $dev.replace('\"', '')
-
           echo $dev
-
           echo "PR_ENV=$dev" >> $env:GITHUB_OUTPUT
   
   Matrix:
