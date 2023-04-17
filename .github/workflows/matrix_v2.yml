@@ -15,16 +15,21 @@ jobs:
         run: |
           $ErrorActionPreference = "STOP"
           Set-StrictMode -version 2.0
-          $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json
-          $b = $a.matrix.include.Where({$_.environment -eq "CORE_DEV (DEV)"})
-          $a.matrix.include = $b
-          $s = $a | ConvertTo-Json
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "PR_ENV=$s"
+		  $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json
+          $dev = $a.matrix.include.Where({$_.environment -eq "${{ github.event.inputs.name }}"})
+          $dev = $dev | ConvertTo-Json -compress
+          $dev = "[" + $dev + "]"
+          $dev = $dev.replace('\"', '')
+
+          echo $dev
+
+          echo "PR_ENV=$dev" >> $env:GITHUB_OUTPUT
   
   Matrix:
     needs: [Prepare]
-    #strategy: {"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"windows-latest"},{"environment":"CORE_QA (QA)","os":"windows-latest"}]},"fail-fast":false}
-    strategy: ${{ needs.Prepare.outputs.output1 }}
+    strategy: 
+      matrix:
+        include: ${{ fromJson(needs.Prepare.outputs.output1) }}
     runs-on: ${{matrix.os}}
     name: Deploy to ${{ matrix.environment }}
     steps:
