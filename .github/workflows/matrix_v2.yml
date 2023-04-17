@@ -16,7 +16,7 @@ jobs:
           $ErrorActionPreference = "STOP"
           Set-StrictMode -version 2.0
           $a = '{"matrix":{"include":[{"environment":"CORE_DEV (DEV)","os":"\"windows-latest\""},{"environment":"CORE_QA (QA)","os":"\"windows-latest\""}]},"fail-fast":false}' | ConvertFrom-Json
-          $dev = $a.matrix.include.Where({$_.environment -eq "${{ github.event.inputs.name }}"})
+          $dev = $a.matrix.include.Where({$_.environment -eq "CORE_DEV (DEV)"})
           $dev = $dev | ConvertTo-Json -compress
           $dev = "[" + $dev + "]"
           $dev = $dev.replace('\"', '')
