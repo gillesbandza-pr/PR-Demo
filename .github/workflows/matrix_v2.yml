@@ -9,6 +9,9 @@ on:
         options: 
         - CORE_DEV (DEV)
         - CORE_DEV (QA)
+      full:
+        type: boolean
+        description: Deploy both DEV & QAT
 
 jobs:
   
@@ -28,8 +31,12 @@ jobs:
           $dev = $dev | ConvertTo-Json -compress
           $dev = "[" + $dev + "]"
           $dev = $dev.replace('\"', '')
-          echo $dev
-          echo "PR_ENV=$dev" >> $env:GITHUB_OUTPUT
+          If ("${{ github.event.inputs.full }}" -eq "True") {
+            echo "PR_ENV=$a.matrix.include" >> $env:GITHUB_OUTPUT
+          }
+          Else {
+            echo "PR_ENV=$dev" >> $env:GITHUB_OUTPUT
+          }
   
   Matrix:
     needs: [Prepare]
