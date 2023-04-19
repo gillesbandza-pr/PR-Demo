@@ -31,7 +31,7 @@ jobs:
           $dev = $dev | ConvertTo-Json -compress
           $dev = "[" + $dev + "]"
           $dev = $dev.replace('\"', '')
-          If ("${{ github.event.inputs.full }}" -eq "True") {
+          If ("${{ github.event.inputs.full }}" -eq "true") {
             echo "PR_ENV=$a.matrix.include" >> $env:GITHUB_OUTPUT
           }
           Else {
